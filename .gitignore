@@ -1,4 +1,5 @@
 *.yml
+*.yaml
 *.env
 .idea
 bin
