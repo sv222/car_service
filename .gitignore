@@ -1,4 +1,4 @@
-./config/*
-.env
+*.yml
+*.env
 .idea
-.bin
+bin
