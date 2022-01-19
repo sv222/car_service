@@ -1,6 +1,7 @@
 package app
 
 import (
+	"context"
 	"io"
 	"net/http"
 	"time"
@@ -43,8 +44,8 @@ func (s *Server) Start() error {
 	return s.HTTPServer.ListenAndServe()
 }
 
-func (s *Server) Stop() error {
-	return nil
+func (s *Server) Shutdown(ctx context.Context) error {
+	return s.HTTPServer.Shutdown(ctx)
 }
 
 func (s *Server) ConfigureLogger(logLevel logrus.Level, output io.Writer) {
