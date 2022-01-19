@@ -30,7 +30,7 @@ func main() {
 	}(logFile)
 
 	serv.ConfigureLogger(logrus.InfoLevel, logFile)
-	serv.Router.HandleFunc("/", app.MainHandler).Methods("GET")
+	serv.Router.HandleFunc("/", app.LoggingRequest(l, app.MainHandler)).Methods("GET")
 	//serv.Router.HandleFunc("/register", app.RegisterHandler).Methods("GET")
 	//serv.Router.HandleFunc("/sign-up", app.SignUpHandler).Methods("GET")
 
