@@ -1,6 +1,7 @@
 package app
 
 import (
+	"io"
 	"net/http"
 	"time"
 
@@ -38,6 +39,15 @@ func NewServer() *Server {
 }
 
 func (s *Server) Start() error {
-	s.Logger.Println("staring server starting on port %d", s.Config.Port)
+	s.Logger.Printf("staring server starting on port %s", s.Config.Port)
 	return s.HTTPServer.ListenAndServe()
+}
+
+func (s *Server) Stop() error {
+	return nil
+}
+
+func (s *Server) ConfigureLogger(logLevel logrus.Level, output io.Writer) {
+	s.Logger.SetLevel(logLevel)
+	s.Logger.SetOutput(output)
 }

@@ -1,0 +1,18 @@
+{{define "base"}}
+{{template "header" . }}
+    <title>{{template "title" .}} - Car Informer</title>
+</head>
+<body>
+<header>
+    <h1><a href='/'>Car Informer</a></h1>
+</header>
+<nav>
+    <a href='/'>О проекте</a>
+</nav>
+<main>
+    {{template "main" .}}
+</main>
+<footer>{{template "footer" . }}</footer>
+</body>
+</html>
+{{end}}
