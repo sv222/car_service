@@ -3,6 +3,7 @@ package main
 import (
 	"car_informer/internal/app"
 	"context"
+	"net/http"
 	"os"
 	"os/signal"
 	"time"
@@ -17,6 +18,7 @@ const (
 func main() {
 	serv := app.NewServer()
 	l := serv.Logger
+	r := serv.Router
 	logFile, err := os.OpenFile("./logs/log.txt", os.O_RDONLY|os.O_CREATE|os.O_APPEND, 0644)
 	if err != nil {
 		l.Fatalf("could not open log file %v", err)
@@ -30,9 +32,18 @@ func main() {
 	}(logFile)
 
 	serv.ConfigureLogger(logrus.InfoLevel, logFile)
-	serv.Router.HandleFunc("/", app.LoggingRequest(l, app.MainHandler)).Methods("GET")
-	//serv.Router.HandleFunc("/register", app.RegisterHandler).Methods("GET")
-	//serv.Router.HandleFunc("/sign-up", app.SignUpHandler).Methods("GET")
+
+	r.HandleFunc("/", app.LoggingRequest(l, app.MainHandler)).Methods("GET")
+	r.HandleFunc("/sign-up", app.SignUpHandler).Methods("GET")
+	r.HandleFunc("/sign-in", app.SignInHandler).Methods("GET")
+
+	css := http.FileServer(http.Dir("./web/static/css/"))
+	img := http.FileServer(http.Dir("./web/static/img/"))
+	js := http.FileServer(http.Dir("./web/static/js/"))
+
+	r.Handle("/css/", http.StripPrefix("/css", css)).Methods("GET")
+	r.Handle("/img/", http.StripPrefix("/img", img)).Methods("GET")
+	r.Handle("/js/", http.StripPrefix("/js", js)).Methods("GET")
 
 	go func() {
 		err := serv.Start()
