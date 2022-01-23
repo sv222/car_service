@@ -37,9 +37,9 @@ func main() {
 	r.HandleFunc("/sign-up", app.SignUpHandler).Methods("GET")
 	r.HandleFunc("/sign-in", app.SignInHandler).Methods("GET")
 
-	css := http.FileServer(http.Dir("./web/static/css/"))
-	img := http.FileServer(http.Dir("./web/static/img/"))
-	js := http.FileServer(http.Dir("./web/static/js/"))
+	css := http.FileServer(http.Dir("./web/static/css"))
+	img := http.FileServer(http.Dir("./web/static/img"))
+	js := http.FileServer(http.Dir("./web/static/js"))
 
 	r.Handle("/css/", http.StripPrefix("/css", css)).Methods("GET")
 	r.Handle("/img/", http.StripPrefix("/img", img)).Methods("GET")
