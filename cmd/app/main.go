@@ -33,6 +33,9 @@ func main() {
 
 	serv.ConfigureLogger(logrus.InfoLevel, logFile)
 
+	fs := http.FileServer(http.Dir("./web/static"))
+	r.Handle("/static/", http.StripPrefix("/static", fs))
+
 	r.HandleFunc("/", app.LoggingRequest(l, app.MainHandler)).Methods("GET")
 	r.HandleFunc("/sign-up", app.SignUpHandler).Methods("GET")
 	r.HandleFunc("/sign-in", app.SignInHandler).Methods("GET")
