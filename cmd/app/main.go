@@ -39,6 +39,7 @@ func main() {
 	r.HandleFunc("/", app.LoggingRequest(l, app.MainHandler)).Methods("GET")
 	r.HandleFunc("/sign-up", app.SignUpHandler).Methods("GET")
 	r.HandleFunc("/sign-in", app.SignInHandler).Methods("GET")
+	r.HandleFunc("/{title}", app.PageHandler).Methods("GET")
 
 	go func() {
 		err := serv.Start()
