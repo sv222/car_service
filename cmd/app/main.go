@@ -2,10 +2,8 @@ package main
 
 import (
 	"car_informer/internal/app"
-	"context"
 	"net/http"
 	"os"
-	"os/signal"
 	"time"
 
 	"github.com/sirupsen/logrus"
@@ -41,25 +39,5 @@ func main() {
 	r.HandleFunc("/sign-in", app.SignInHandler).Methods("GET")
 	r.HandleFunc("/{title}", app.PageHandler).Methods("GET")
 
-	go func() {
-		err := serv.Start()
-		if err != nil {
-			l.Fatal(err)
-		}
-	}()
-
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt)
-
-	<-c
-
-	ctx, cancel := context.WithTimeout(context.Background(), waitShutdown)
-	defer cancel()
-
-	if err := serv.Shutdown(ctx); err != nil {
-		l.Fatalf("problem with server shutdown occurred: %v", err)
-	}
-
-	l.Println("server shutdown completed successfully")
-	os.Exit(0)
+	l.Fatal(serv.Start())
 }
