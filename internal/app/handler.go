@@ -45,6 +45,7 @@ func SignUpHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "internal error", http.StatusInternalServerError)
 		log.Fatalf("could not execute template: %v", err)
 	}
+
 }
 
 func SignInHandler(w http.ResponseWriter, r *http.Request) {
