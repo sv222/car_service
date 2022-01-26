@@ -4,15 +4,8 @@ import (
 	"car_informer/internal/app"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/sirupsen/logrus"
-
-	_ "github.com/lib/pq"
-)
-
-const (
-	waitShutdown = time.Second * 15
 )
 
 func main() {
