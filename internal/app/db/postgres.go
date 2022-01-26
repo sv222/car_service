@@ -1,6 +1,7 @@
 package db
 
 import (
+	"car_informer/internal/app/model"
 	"crypto/sha256"
 	"database/sql"
 	"fmt"
@@ -35,6 +36,21 @@ func createConnection() *sql.DB {
 	fmt.Println("successfully established connection!")
 
 	return db
+}
+
+func CreateUser(user model.User) int64 {
+	db := createConnection()
+	defer db.Close()
+	
+	sqlQuery := `INSERT INTO users (ID, Email, Password, EncryptedPassword) VALUES($1, $2, $3, $4) RETURNING id`
+
+	var id int64
+
+	if err := db.QueryRow(sqlQuery, user.ID, user.Email, user.Password, user.EncryptedPassword).Scan(&id); err != nil {
+
+	}
+
+	return id
 }
 
 func generatePasswordHash(password string) string {
