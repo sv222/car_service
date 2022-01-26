@@ -53,6 +53,24 @@ func InsertUser(user model.User) int64 {
 	return id
 }
 
+func GetUserByID(id int64) (model.User, error) {
+
+	db := createConnection()
+	defer db.Close()
+
+	var user model.User
+
+	sqlQuery := `SELECT * FROM users WHERE id=$1`
+
+	raw := db.QueryRow(sqlQuery, id)
+
+	if err := raw.Scan(&user.ID, &user.Email, &user.Password, &user.EncryptedPassword); err != nil {
+		log.Printf("could not find user: %v", err)
+	}
+
+	return user, nil
+}
+
 func generatePasswordHash(password string) string {
 	err := godotenv.Load()
 	if err != nil {

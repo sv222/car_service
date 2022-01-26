@@ -114,3 +114,21 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(res)
 }
+
+func GetUserHandler(w http.ResponseWriter, r *http.Request) {
+
+	var user model.User
+
+	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
+		log.Printf("could not decode user: %v", err)
+	}
+
+	insertedID := db.InsertUser(user)
+
+	res := response{
+		ID:      insertedID,
+		Message: "user created successfully",
+	}
+
+	json.NewEncoder(w).Encode(res)
+}
