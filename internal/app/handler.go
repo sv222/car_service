@@ -14,8 +14,7 @@ type response struct {
 	Message string `json:"message,omitempty"`
 }
 
-type Handler struct {
-}
+type Handler struct{} // TODO add implementation: dependency injection
 
 func MainHandler(w http.ResponseWriter, r *http.Request) {
 
