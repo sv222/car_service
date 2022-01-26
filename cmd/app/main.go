@@ -7,6 +7,8 @@ import (
 	"time"
 
 	"github.com/sirupsen/logrus"
+
+	_ "github.com/lib/pq"
 )
 
 const (
