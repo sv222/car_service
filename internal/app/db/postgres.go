@@ -12,10 +12,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-const (
-	salt = "3DKJH^&%&^DRjhKSFD^$%RSFHG"
-)
-
 func createConnection() *sql.DB {
 	err := godotenv.Load()
 	if err != nil {
@@ -42,6 +38,11 @@ func createConnection() *sql.DB {
 }
 
 func generatePasswordHash(password string) string {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	salt := os.Getenv("SALT_PHRASE")
 	hash := sha256.New()
 	hash.Write([]byte(password))
 
