@@ -38,10 +38,10 @@ func createConnection() *sql.DB {
 	return db
 }
 
-func CreateUser(user model.User) int64 {
+func InsertUser(user model.User) int64 {
 	db := createConnection()
 	defer db.Close()
-	
+
 	sqlQuery := `INSERT INTO users (ID, Email, Password, EncryptedPassword) VALUES($1, $2, $3, $4) RETURNING id`
 
 	var id int64
