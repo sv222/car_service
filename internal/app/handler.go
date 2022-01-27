@@ -7,6 +7,9 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
+
+	"github.com/gorilla/mux"
 )
 
 type response struct {
@@ -125,17 +128,26 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 
 func GetUserHandler(w http.ResponseWriter, r *http.Request) {
 
-	var user model.User
+	params := mux.Vars(r)
 
-	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		log.Printf("could not decode user: %v", err)
+	id, err := strconv.ParseInt(params["id"], 10, 64)
+
+	if err != nil {
+		log.Printf("couldn't convert string id to int: %v", err)
 	}
 
-	insertedID := db.InsertUser(user)
+	user, err := db.GetUserByID(id)
 
-	res := response{
-		ID:      insertedID,
-		Message: "user created successfully",
+	if err != nil {
+		log.Printf("couldn't get user from database: %v", err)
+	}
+
+	res := struct {
+		ID    int64
+		Email string
+	}{
+		ID:    user.ID,
+		Email: user.Email,
 	}
 
 	json.NewEncoder(w).Encode(res)
