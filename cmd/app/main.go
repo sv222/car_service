@@ -39,7 +39,7 @@ func main() {
 	r.HandleFunc("/sign-in", app.SignInHandler).Methods("GET")
 	//r.HandleFunc("/sign-in", app.SignInHandler).Methods("POST")
 
-	r.HandleFunc("/{title}", app.PageHandler).Methods("GET")
+	r.HandleFunc("/page/{title}", app.PageHandler).Methods("GET")
 	r.HandleFunc("/user/{id}", app.GetUserHandler).Methods("GET")
 
 	// TODO: implement graceful shutdown
