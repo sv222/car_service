@@ -94,10 +94,15 @@ func PageHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("could not parse template: %v", err)
 	}
 
-	if err := tmpl.Execute(w, nil); err != nil {
+	params := mux.Vars(r)
+	title := params["title"]
+
+	// TODO: check correct title
+	if err := tmpl.Execute(w, title); err != nil {
 		http.Error(w, "internal error", http.StatusInternalServerError)
 		log.Fatalf("could not execute template: %v", err)
 	}
+
 }
 
 func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
