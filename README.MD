@@ -1,1 +1,2 @@
-# CRUD SERVICE for checking cars parameters from external API
+# CAR Informer Service
+## CRUD service for checking cars parameters from external API
