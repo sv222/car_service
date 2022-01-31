@@ -5,4 +5,5 @@
 bin
 *.http
 logs
+*.exe
 postgres-data
