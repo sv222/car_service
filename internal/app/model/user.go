@@ -1,6 +1,8 @@
 package model
 
 import (
+	validation "github.com/go-ozzo/ozzo-validation"
+	"github.com/go-ozzo/ozzo-validation/is"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -11,15 +13,24 @@ type User struct {
 	EncryptedPassword string `json:"-"`
 }
 
-func (u *User) EncryptPassword() error {
-	if len(u.Password) > 8 {
-		encPass, err := encryptString(u.Password)
-		if err != nil {
-			return err
-		}
+func (u *User) Validate() error {
+	return validation.ValidateStruct(
+		u,
+		validation.Field(&u.Email, validation.Required, is.Email),
+		validation.Field(&u.Password, validation.Required, validation.Length(8, 100)),
+	)
+}
 
-		u.EncryptedPassword = encPass
+func (u *User) EncryptPassword() error {
+	if err := u.Validate(); err != nil {
+		return err
 	}
+	encPass, err := encryptString(u.Password)
+	if err != nil {
+		return err
+	}
+
+	u.EncryptedPassword = encPass
 
 	return nil
 }
