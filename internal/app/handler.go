@@ -17,8 +17,6 @@ type response struct {
 	Message string `json:"message,omitempty"`
 }
 
-type Handler struct{} // TODO add implementation: dependency injection
-
 func MainHandler(w http.ResponseWriter, r *http.Request) {
 
 	tmpls := []string{
@@ -113,11 +111,8 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 		log.Printf("could not decode user: %v", err)
 	}
 
-	if len(user.Email) < 5 || len(user.Password) < 8 {
-		res := response{
-			Message: "no data enough",
-		}
-		json.NewEncoder(w).Encode(res)
+	if err := user.Validate(); err != nil {
+		json.NewEncoder(w).Encode("no email address or password provided")
 		return
 	}
 
