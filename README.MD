@@ -5,6 +5,8 @@
 
 _https://github.com/golang-migrate/migrate_
 
+Create table users:
 `./migrate -path migrations -database "postgres://{user}:{password}@localhost:5432/mydb?sslmode=disable" up`
 
+Drop database users:
 `./migrate -path migrations -database "postgres://{user}:{password}@localhost:5432/mydb?sslmode=disable" down`
