@@ -1,6 +1,11 @@
 # CAR Informer Service
 ## CRUD service for checking cars parameters from external API
 
+### Endpoints:
+ 
+/ - service description
+/
+
 ### Migrations:
 
 _https://github.com/golang-migrate/migrate_

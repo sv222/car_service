@@ -111,11 +111,6 @@ func CreateUserHandler(w http.ResponseWriter, r *http.Request) {
 		log.Printf("could not decode user: %v", err)
 	}
 
-	if err := user.Validate(); err != nil {
-		json.NewEncoder(w).Encode("no email address or password provided")
-		return
-	}
-
 	insertedID := db.InsertUser(user)
 
 	res := response{

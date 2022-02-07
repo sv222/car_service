@@ -1,9 +1,9 @@
 *.yml
 *.yaml
-*.env
 .idea
 bin
 *.http
 logs
 *.exe
-postgres-data
+postgres-data!
+.env
